@@ -1,0 +1,170 @@
+/* src/css/CategoryPage.css */
+
+/* --- 1. BANNER TIÊU ĐỀ (Nền xanh có họa tiết) --- */
+.page-banner {
+    background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #0056b3 100%);
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(135deg, #001f3f 0%, #004080 100%);
+    background-size: 20px 20px, 100% 100%;
+
+    padding: 60px 0 100px 0;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.page-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* --- 2. MENU TAB CON (KHỐI VUÔNG ĐÈ LÊN BANNER) --- */
+.page-tabs-container {
+    margin-top: -50px;
+    margin-bottom: 50px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    position: relative;
+    z-index: 10;
+    padding: 0 15px;
+}
+
+.page-tab-item {
+    background-color: #fff;
+    color: #555;
+
+    padding: 20px 15px;
+    min-width: 160px;
+    flex: 1;
+    text-align: center;
+
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+/* Hiệu ứng khi di chuột */
+.page-tab-item:hover {
+    transform: translateY(-5px);
+    color: #2996d8;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* --- TAB ĐANG ĐƯỢC CHỌN (ACTIVE) --- */
+.page-tab-item.active {
+    background-color: #2996d8;
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(41, 150, 216, 0.4);
+    position: relative;
+}
+
+.page-tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #2996d8;
+}
+
+/* --- 3. DANH SÁCH BÀI VIẾT (CARD NGANG MỚI) --- */
+.list-item-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+.list-item-title-hover {
+    transition: color 0.2s ease;
+}
+
+.list-item-card:hover .list-item-title-hover {
+    color: #d32f2f;
+    /* Red highlight on hover like the user wants */
+}
+
+/* Hiệu ứng link Xem chi tiết */
+.request-hover-effect {
+    transition: all 0.2s ease;
+}
+
+.request-hover-effect:hover {
+    padding-left: 5px;
+    text-decoration: underline !important;
+}
+
+/* Pagination custom style override */
+.pagination .page-link {
+    color: #333;
+    border: 1px solid #dee2e6;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #2996d8;
+    border-color: #2996d8;
+    color: #fff;
+}
+
+.pagination .page-link:focus {
+    box-shadow: none;
+    border-color: #2996d8;
+}
+
+/* Sidebar styles - keep basic structure */
+.sidebar-box {
+    background-color: #fff;
+    margin-bottom: 30px;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #333;
+    text-transform: uppercase;
+    border-bottom: 2px solid #2996d8;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+}

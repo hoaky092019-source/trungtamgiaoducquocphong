@@ -1,0 +1,885 @@
+/* src/css/HomePage.css */
+
+/* =========================================
+   1. SLIDER & ANIMATION (Chuyển từ site.css sang)
+   ========================================= */
+
+/* Khung chứa Slogan trên ảnh */
+.slogan-box {
+    background: rgba(0, 42, 128, 0.7); /* Xanh đậm trong suốt */
+    backdrop-filter: blur(5px);
+    padding: 20px 30px;
+    border-left: 5px solid var(--gold);
+    display: inline-block;
+    max-width: 800px;
+    border-radius: 0 15px 15px 0;
+}
+
+.slogan-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* Animation: Trượt từ dưới lên (Fade Up) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0; /* Ẩn mặc định để chờ animation */
+}
+
+/* Delay cho các dòng xuất hiện lần lượt */
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.5s; }
+
+
+/* =========================================
+   2. STYLE CHO PHẦN TIN TỨC (NEWS SECTION)
+   ========================================= */
+
+.news-section {
+    padding: 30px 0 60px 0;
+    background-color: #fff;
+}
+
+/* Tiêu đề mục Tin tức */
+.news-title-heading {
+    color: var(--primary-blue); /* Màu xanh chủ đạo lấy từ biến root */
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.news-title-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100px;
+    height: 4px;
+    background-color: #d32f2f; /* Gạch chân đỏ */
+}
+
+/* Thẻ tin tức (Card) */
+.news-card {
+    display: flex; /* Xếp ảnh và chữ nằm ngang */
+    background-color: #d1e7dd; /* Màu nền xanh lá nhạt giống ảnh mẫu */
+    margin-bottom: 25px;
+    min-height: 150px;
+    text-decoration: none; /* Bỏ gạch chân link */
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05); 
+    height: 100%;
+    min-height: 180px;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* Phần ảnh thumb bên trái */
+.news-thumb {
+    width: 40%; /* Ảnh chiếm 40% chiều rộng */
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.news-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cắt ảnh vừa khung, không méo */
+    transition: transform 0.5s ease;
+}
+
+.news-card:hover .news-thumb img {
+    transform: scale(1.1); /* Zoom ảnh khi hover */
+}
+
+/* Phần nội dung bên phải */
+.news-body {
+    width: 60%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Tiêu đề bài viết */
+.news-heading {
+    color: #0056b3; /* Xanh dương đậm */
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    
+    /* Cắt dòng nếu dài quá 3 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Nhãn NEW màu vàng */
+.badge-new {
+    background-color: #ffc107; /* Vàng */
+    color: #d32f2f; /* Đỏ */
+    font-weight: 800;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    margin-right: 6px;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+/* Ngày tháng và tóm tắt */
+.news-meta {
+    font-size: 0.85rem;
+    color: #333;
+    margin-bottom: 5px;
+    
+    /* Cắt dòng nếu dài quá 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Link xem chi tiết */
+.news-link {
+    font-size: 0.85rem;
+    color: #0056b3;
+    text-decoration: underline;
+    font-style: italic;
+    font-weight: 500;
+}
+/* =========================================
+   3. STYLE CHO PHẦN HOẠT ĐỘNG (ACTIVITY SECTION)
+   ========================================= */
+
+.activity-section {
+    position: relative;
+    /* Ảnh nền chìm (Bạn thay bằng ảnh thao trường hoặc tòa nhà trường) */
+    background-image: url('/public/img/bg-activity.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Hiệu ứng Parallax nhẹ (ảnh đứng yên khi cuộn) */
+    padding: 60px 0;
+    overflow: hidden;
+}
+
+/* Lớp phủ màu xanh đậm (Overlay) */
+.activity-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Màu xanh đậm pha tím than giống ảnh mẫu, độ trong suốt 90% */
+    background: linear-gradient(90deg, rgba(18, 30, 80, 0.95) 0%, rgba(30, 50, 120, 0.9) 100%);
+    z-index: 1;
+}
+
+/* Cột Trái: Ảnh nữ sinh */
+.student-image-box {
+    position: relative;
+}
+
+.student-img {
+    max-width: 100%;
+    height: auto;
+    /* Hiệu ứng đổ bóng nhẹ cho người nổi lên */
+    filter: drop-shadow(5px 5px 15px rgba(0,0,0,0.5));
+    transition: transform 0.3s ease;
+}
+
+.student-img:hover {
+    transform: scale(1.02);
+}
+
+/* Cột Phải: Text */
+.activity-title {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.activity-desc {
+    color: #b0c4de; /* Màu xanh xám nhạt */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* 3 Thẻ nhỏ (Gallery Cards) */
+.activity-card {
+    background: #fff;
+    /* Tăng padding để tạo không gian thoáng đãng */
+    padding: 10px;
+    /* Bo tròn góc thẻ để trông mềm mại hơn */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Đổ bóng sâu hơn */
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%; /* Để các thẻ cao bằng nhau */
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+.act-thumb {
+    height: 140px; /* Tăng chiều cao ảnh một chút */
+    overflow: hidden;
+    /* Tạo khoảng cách với nút bên dưới */
+    margin-bottom: 15px;
+    /* Bo tròn góc ảnh cho đồng bộ với thẻ */
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.act-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Hiệu ứng zoom ảnh nhẹ khi hover vào thẻ */
+.activity-card:hover .act-thumb img {
+    transform: scale(1.05);
+}
+
+/* Nút Xem Thêm - Đã lột xác */
+.btn-view-more {
+    width: 100%;
+    /* Dùng gradient thay vì màu trơn để tạo chiều sâu */
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+    color: #fff;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 12px 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    /* Bo tròn góc nút */
+    border-radius: 8px;
+    /* Thêm bóng nhẹ cho nút */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    /* Đẩy nút xuống đáy nếu thẻ bị kéo dài */
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hiệu ứng khi di chuột vào nút */
+.btn-view-more:hover {
+    /* Đổi sang gradient màu đỏ cam nổi bật */
+    background: linear-gradient(135deg, #d32f2f 0%, #f57c00 100%);
+    /* Nút nổi lên một chút */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Hiệu ứng cho icon mũi tên khi hover */
+.btn-view-more:hover i {
+    transform: translateX(5px); /* Mũi tên dịch sang phải */
+    transition: transform 0.3s ease;
+}
+
+/* Responsive: Trên mobile ảnh người nhỏ lại chút */
+@media (max-width: 768px) {
+    .student-img {
+        max-height: 300px;
+        margin-bottom: 20px;
+    }
+    .activity-title {
+        font-size: 1.2rem;
+    }
+}
+/* =========================================
+   4. STYLE CHO PHẦN THÔNG BÁO (NOTICE SECTION)
+   ========================================= */
+
+.notice-section {
+    padding: 60px 0;
+    /* Dùng màu nền xám rất nhạt để tách biệt với nền trắng của phần trên */
+    background-color: #f8f9fa; 
+}
+
+/* Thẻ thông báo */
+.notice-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    /* Đổ bóng nhẹ tạo chiều sâu */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    height: 100%; /* Để các thẻ bằng nhau */
+    align-items: flex-start; /* Căn hàng trên cùng */
+}
+
+.notice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: var(--primary-blue); /* Viền chuyển xanh khi hover */
+}
+
+/* --- UPGRADE: HỘP NGÀY THÁNG (Thay cho icon tĩnh) --- */
+.notice-date-box {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    /* Gradient Vàng Gold sang trọng */
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.notice-card:hover .notice-date-box {
+    transform: scale(1.1) rotate(-5deg); /* Hiệu ứng lắc nhẹ khi hover */
+}
+
+.notice-day {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.notice-month {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 5px;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    padding-top: 2px;
+    width: 80%;
+    text-align: center;
+}
+
+/* --- PHẦN NỘI DUNG --- */
+.notice-body {
+    flex-grow: 1;
+}
+
+.notice-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+    line-height: 1.4;
+    
+    /* Cắt dòng nếu dài quá 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s;
+}
+
+.notice-card:hover .notice-title {
+    color: #d32f2f; /* Hover tiêu đề chuyển đỏ */
+}
+
+.notice-meta {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.notice-summary {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+    
+    /* Cắt dòng mô tả */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notice-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+}
+
+.notice-link i {
+    transition: transform 0.3s;
+}
+
+.notice-card:hover .notice-link i {
+    transform: translateX(5px); /* Mũi tên chạy sang phải */
+}
+/* =========================================
+   5. STYLE CHO PHẦN LỜI BÁC DẠY (QUOTE SECTION)
+   ========================================= */
+
+.quote-section {
+    position: relative;
+    background: linear-gradient(90deg, #ed213a 0%, #93291e 100%); /* Gradient đỏ đậm */
+    padding: 50px 0;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+/* Ảnh nền Hoa Sen chìm */
+.lotus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Bạn nhớ tải ảnh hoa sen png transparent đặt tên là lotus-pattern.png */
+    background-image: url('/public/img/anh-hoa-sen.jpg'); 
+    background-repeat: repeat-x;
+    background-size: contain;
+    background-position: center bottom;
+    opacity: 0.1; /* Làm mờ để in chìm vào nền đỏ */
+    z-index: 1;
+}
+
+/* Tiêu đề */
+.quote-header {
+    font-family: 'Montserrat', sans-serif; /* Font cứng cáp */
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    border-left: 5px solid #ffeb3b; /* Vạch vàng bên cạnh tiêu đề */
+    padding-left: 15px;
+}
+
+/* Hộp chứa câu nói (Tạo khung vàng trang trí) */
+.quote-box {
+    position: relative;
+    padding: 20px 30px;
+    margin-top: 20px;
+}
+
+/* Tạo 2 cái móc vuông màu vàng bằng pseudo-elements */
+.quote-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-top: 3px solid #ffeb3b; /* Vàng */
+    border-left: 3px solid #ffeb3b;
+}
+
+.quote-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-bottom: 3px solid #ffeb3b;
+    border-right: 3px solid #ffeb3b;
+}
+
+/* Nội dung câu nói */
+.quote-content {
+    font-family: 'Dancing Script', cursive; /* Font viết tay */
+    font-size: 1.8rem; /* Chữ to rõ */
+    color: #ffeb3b; /* Màu vàng kim */
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.citation {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-left: 10px;
+}
+
+/* Ảnh Bác Hồ */
+.uncle-ho-box {
+    position: relative;
+    height: 100%;
+}
+
+.uncle-ho-img {
+    width: 80%; /* Điều chỉnh tùy kích thước ảnh thật */
+    max-width: 350px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 235, 59, 0.3)); /* Tỏa sáng nhẹ màu vàng */
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* Làm mờ chân ảnh cho hòa vào nền */
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .quote-content {
+        font-size: 1.5rem;
+    }
+    .uncle-ho-img {
+        display: none; /* Ẩn ảnh Bác trên mobile để đỡ chật, hoặc cho nhỏ lại tùy bạn */
+    }
+}
+/* =========================================
+   6. STYLE CHO HOẠT ĐỘNG NGOẠI KHÓA (GALLERY)
+   ========================================= */
+
+.extra-section {
+    padding: 70px 0;
+    background-color: #fff;
+}
+
+/* Tiêu đề căn giữa */
+.section-title {
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+}
+
+.section-subtitle {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.divider-icon {
+    color: var(--accent-red);
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.divider-icon::before, .divider-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 2px;
+    background-color: #eee;
+}
+.divider-icon::before { right: 30px; }
+.divider-icon::after { left: 30px; }
+
+/* --- CARD ẢNH (GALLERY) --- */
+.gallery-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden; /* Cắt phần ảnh thừa khi zoom */
+    height: 350px; /* Chiều cao cố định cho đẹp đội hình */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Hiệu ứng zoom mượt */
+}
+
+/* Lớp phủ (Overlay) mặc định ẩn xuống dưới */
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 51, 153, 0.9) 0%, rgba(0, 51, 153, 0.4) 100%); /* Màu xanh trong suốt */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    opacity: 0; /* Ẩn đi */
+    transform: translateY(20px); /* Dịch xuống dưới một chút */
+    transition: all 0.4s ease;
+}
+
+/* --- ANIMATION KHI HOVER --- */
+.gallery-card:hover img {
+    transform: scale(1.15); /* Zoom ảnh lên */
+}
+
+.gallery-card:hover .gallery-overlay {
+    opacity: 1; /* Hiện lớp phủ */
+    transform: translateY(0); /* Trượt lên vị trí cũ */
+}
+
+.gallery-title {
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    transform: translateY(-20px);
+    transition: transform 0.4s ease 0.1s; /* Delay nhẹ */
+}
+
+.gallery-desc {
+    color: #ffd700; /* Vàng */
+    font-size: 0.9rem;
+    transform: translateY(20px);
+    transition: transform 0.4s ease 0.1s;
+}
+
+.gallery-card:hover .gallery-title,
+.gallery-card:hover .gallery-desc {
+    transform: translateY(0); /* Chữ chạy vào giữa */
+}
+
+/* Nút icon tròn */
+.btn-gallery-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--primary-blue);
+    border: none;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    transition: transform 0.3s ease 0.2s;
+}
+
+.gallery-card:hover .btn-gallery-icon {
+    transform: scale(1); /* Nút bung ra */
+}
+
+/* --- PHẦN TEXT BÊN DƯỚI --- */
+.extra-quote-box {
+    background-color: #f8faff;
+    padding: 30px;
+    border-radius: 10px;
+    border-left: 5px solid var(--accent-red);
+    position: relative;
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 1.8;
+}
+
+.quote-icon-start, .quote-icon-end {
+    color: rgba(0, 51, 153, 0.1);
+    font-size: 2rem;
+    position: absolute;
+}
+.quote-icon-start { top: 10px; left: 10px; }
+.quote-icon-end { bottom: 10px; right: 10px; }
+
+.highlight-text {
+    color: var(--accent-red);
+    font-weight: 700;
+}
+
+.see-more-link {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-decoration: none;
+    transition: padding 0.3s;
+}
+
+.see-more-link:hover {
+    padding-left: 10px; /* Hiệu ứng chạy sang phải */
+    color: var(--accent-red);
+}
+/* =========================================
+   7. STYLE CHO PHẦN CHIA SẺ (TESTIMONIAL)
+   ========================================= */
+
+.sharing-section {
+    position: relative;
+    padding: 80px 0;
+    overflow: hidden;
+    /* Nền xanh Navy Gradient (Theo mô tả: Navy Blue -> Lighter Blue) */
+    background: linear-gradient(105deg, #001f3f 0%, #001f3f 40%, #003366 40%, #0044cc 100%);
+}
+
+/* TẠO ĐƯỜNG CHÉO (DIAGONAL LINE) */
+/* Mẹo: Dùng dải màu cứng (hard-stop gradient) để tạo đường chéo */
+/* 0% -> 40% là màu đậm (cho cột trái) */
+/* 40% -> 40.2% là màu vàng/trắng (tạo nét vạch kẻ) */
+/* 40.2% -> 100% là màu sáng hơn (cho cột phải) */
+.sharing-section {
+    background: linear-gradient(
+        105deg, 
+        #00102a 0%, 
+        #00102a 38%, 
+        rgba(255, 255, 255, 0.1) 38%, /* Đường kẻ mờ */
+        rgba(255, 255, 255, 0.1) 38.5%, 
+        #002a80 38.5%, 
+        #0044cc 100%
+    );
+}
+
+/* Cột Trái: Avatar */
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+}
+
+.sharing-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; /* Hình tròn */
+    object-fit: cover;
+    border: 5px solid rgba(255, 255, 255, 0.2); /* Viền mờ */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 2;
+}
+
+/* Vòng trang trí xoay nhẹ phía sau avatar */
+.avatar-decor {
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    border: 2px dashed var(--gold);
+    border-radius: 50%;
+    animation: spinSlow 20s linear infinite;
+    z-index: 1;
+}
+
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Cột Phải: Typography */
+.sharing-title {
+    color: #fff;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Font chữ viết tay "Người Đi Trước" */
+.sharing-subtitle {
+    font-family: 'Dancing Script', cursive; /* Đã import từ Google Font ở bước trước */
+    font-size: 3rem;
+    color: var(--gold); /* Màu vàng cam tương phản */
+    margin-top: -10px;
+    margin-left: 50px; /* Thụt lề chút cho nghệ thuật */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    transform: rotate(-3deg); /* Nghiêng nhẹ cho tự nhiên */
+}
+
+/* Gallery ảnh nhỏ */
+.border-white-sm {
+    border: 3px solid #fff;
+    border-radius: 4px;
+    transition: transform 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    height: 150px !important; /* Chiều cao cố định */
+    object-fit: cover;
+    object-position: center;
+}
+
+.border-white-sm:hover {
+    transform: scale(1.1);
+    z-index: 5;
+    position: relative;
+}
+
+/* Responsive: Trên Mobile thì bỏ background chéo, chuyển về gradient dọc */
+@media (max-width: 992px) {
+    .sharing-section {
+        background: linear-gradient(180deg, #00102a 0%, #002a80 100%);
+    }
+    .sharing-subtitle {
+        font-size: 2.5rem;
+        margin-left: 0;
+        text-align: center;
+    }
+    .sharing-header {
+        text-align: center;
+    }
+}
+/* =========================================
+   8. STYLE CHO PHẦN BẢN ĐỒ (MAP SECTION)
+   ========================================= */
+
+.map-section {
+    padding-top: 60px;
+    background-color: #fff;
+    padding-bottom: 0; /* Map nằm sát đáy */
+}
+
+/* Tiêu đề bản đồ */
+.map-title {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+/* Khung chứa bản đồ */
+.map-container {
+    width: 100%;
+    /* Hiệu ứng bóng đổ nhẹ ngăn cách bản đồ với footer */
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1); 
+    line-height: 0; /* Loại bỏ khoảng trắng thừa dưới chân iframe */
+}
+
+.map-container iframe {
+    display: block; /* Đảm bảo không bị dính dòng trắng */
+    filter: grayscale(20%); /* (Tùy chọn) Làm bản đồ hơi xám nhẹ để đỡ chói, nhìn nghệ thuật hơn */
+    transition: filter 0.3s;
+}
+
+.map-container iframe:hover {
+    filter: grayscale(0%); /* Rê chuột vào thì hiện màu gốc */
+}
+
+/* Responsive: Trên điện thoại bản đồ cao vừa phải thôi */
+@media (max-width: 768px) {
+    .map-container iframe {
+        height: 300px;
+    }
+    .map-title {
+        font-size: 1.2rem;
+        padding: 0 15px; /* Tránh sát lề */
+    }
+}

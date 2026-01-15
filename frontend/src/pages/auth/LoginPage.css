@@ -1,0 +1,111 @@
+/* src/pages/auth/LoginPage.css */
+
+/* 1. Nền trang (Background) */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Màu nền gradient nhẹ hoặc có thể thay bằng ảnh nền trường */
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+    padding: 20px;
+}
+
+/* 2. Thẻ Card Đăng nhập */
+.login-card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 75, 141, 0.15); /* Bóng đổ nhẹ màu xanh */
+    border-top: 5px solid var(--primary-color, #004b8d); /* Viền trên màu xanh quân đội */
+}
+
+/* 3. Header (Logo + Tên trường) */
+.login-header {
+    text-align: center;
+   
+}
+
+.school-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.login-header h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary-dark, #003366);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.login-header p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6c757d;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 4. Form Input */
+.form-control {
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background-color: #f8f9fa;
+}
+
+.form-control:focus {
+    background-color: #fff;
+    border-color: #004b8d;
+    box-shadow: 0 0 0 3px rgba(0, 75, 141, 0.1);
+}
+
+/* 5. Nút Đăng nhập */
+.btn-primary {
+    background-color: #004b8d; /* Màu xanh chủ đạo */
+    border-color: #004b8d;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #003366;
+    border-color: #003366;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3);
+}
+
+.btn-primary:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* 6. Footer */
+.login-footer a {
+    color: #004b8d;
+    font-weight: 500;
+}
+
+.login-footer a:hover {
+    text-decoration: underline !important;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 576px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+    .login-header h2 {
+        font-size: 1.1rem;
+    }
+}

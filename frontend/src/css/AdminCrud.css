@@ -1,0 +1,219 @@
+/* src/css/AdminCrud.css */
+
+/* 1. Header & Actions */
+.page-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark, #003366);
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+
+.btn-primary-custom {
+    background: linear-gradient(135deg, #004b8d 0%, #003366 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 75, 141, 0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 75, 141, 0.3);
+    color: #fff;
+}
+
+/* 2. Toolbar (Search & Filter) */
+.crud-toolbar {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    margin-bottom: 24px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-box-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-box-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #adb5bd;
+}
+
+.form-control-search {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    transition: all 0.2s;
+}
+
+.form-control-search:focus {
+    background-color: #fff;
+    border-color: var(--primary-color, #004b8d);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 75, 141, 0.1);
+}
+
+.form-select-filter {
+    border: 1px solid #e9ecef;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px 15px;
+    min-width: 180px;
+    cursor: pointer;
+}
+
+/* 3. Table Styling */
+.table-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.custom-table th {
+    padding: 18px 24px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6c757d;
+    letter-spacing: 0.5px;
+}
+
+.custom-table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+    color: #343a40;
+    font-size: 0.95rem;
+}
+
+.custom-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* 4. Cell Components */
+/* Info Group (Avatar + Text) */
+.info-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-sm {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #e9ecef;
+}
+
+.info-text h6 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #212529;
+}
+
+.info-text small {
+    color: #868e96;
+    font-size: 0.85rem;
+}
+
+/* Badges */
+.badge-status {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.badge-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.bg-soft-success { background-color: #d1e7dd; color: #0f5132; }
+.bg-soft-danger  { background-color: #f8d7da; color: #842029; }
+.bg-soft-primary { background-color: #cfe2ff; color: #084298; }
+.bg-soft-warning { background-color: #fff3cd; color: #664d03; }
+
+/* Action Buttons */
+.action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    background: transparent;
+    color: #6c757d;
+}
+
+.btn-edit:hover { background-color: #e3f2fd; color: #004b8d; }
+.btn-delete:hover { background-color: #ffebee; color: #d32f2f; }
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #adb5bd;
+}
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}

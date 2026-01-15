@@ -1,0 +1,125 @@
+/* src/css/AdminForm.css */
+
+/* 1. Khung chứa Form */
+.form-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f0f0;
+    margin-bottom: 30px;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-dark, #003366);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* 2. Input & Select đẹp */
+.form-label-custom {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    display: block;
+}
+
+.form-control-modern {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #dee2e6;
+    border-radius: 10px; /* Bo góc mềm mại */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-control-modern:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: var(--primary-color, #004b8d);
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(0, 75, 141, 0.1); /* Hiệu ứng glow xanh khi bấm vào */
+}
+
+/* Input bị disable (ví dụ: Tên đăng nhập khi sửa) */
+.form-control-modern:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+/* 3. Checkbox Toggle Switch (Nút gạt) */
+.toggle-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.form-check-input-custom {
+    width: 3em;
+    height: 1.5em;
+    background-color: #e9ecef;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");
+    border-radius: 2em;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    appearance: none;
+    cursor: pointer;
+    transition: background-position .15s ease-in-out;
+}
+
+.form-check-input-custom:checked {
+    background-color: var(--primary-color, #004b8d); /* Màu xanh khi bật */
+    border-color: var(--primary-color, #004b8d);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    background-position: right center;
+}
+
+/* 4. Footer Buttons */
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.btn-secondary-custom {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.btn-secondary-custom:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.btn-save-custom {
+    background: linear-gradient(135deg, #004b8d 0%, #003366 100%);
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 75, 141, 0.2);
+    transition: all 0.2s;
+}
+.btn-save-custom:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 75, 141, 0.3);
+}

@@ -1,0 +1,106 @@
+/* src/css/Modal.css */
+
+/* 1. Lớp phủ mờ nền (Overlay) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen mờ 50% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050; /* Cao hơn mọi thứ khác */
+    backdrop-filter: blur(2px); /* Làm mờ nhẹ background phía sau */
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* 2. Hộp thoại chính */
+.modal-box {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    animation: zoomIn 0.2s ease-out forwards;
+}
+
+/* 3. Icon cảnh báo */
+.modal-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    background-color: #fef2f2; /* Đỏ rất nhạt */
+    color: #ef4444; /* Đỏ đậm */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    font-size: 2rem;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+.modal-desc {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* 4. Nút bấm */
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn-modal-cancel {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    color: #374151;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-modal-cancel:hover {
+    background-color: #f3f4f6;
+}
+
+.btn-modal-delete {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #ef4444; /* Đỏ */
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+    transition: all 0.2s;
+}
+.btn-modal-delete:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
