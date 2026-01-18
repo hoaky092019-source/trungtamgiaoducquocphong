@@ -29,6 +29,13 @@ import PostFormPage from "./pages/admin/posts/PostFormPage";
 import FileManagerPage from "./pages/admin/filemanager/FileManagerPage";
 import ElFinderPage from "./pages/admin/filemanager/ElFinderPage";
 
+// --- IMPORT STUDENT PORTAL ---
+import StudentLayout from "./layouts/StudentLayout";
+import StudentDashboardPage from "./pages/student/StudentDashboardPage";
+import StudentSchedulePage from "./pages/student/StudentSchedulePage";
+import StudentGradesPage from "./pages/student/StudentGradesPage";
+import StudentInfoPage from "./pages/student/StudentInfoPage";
+
 // ... previous imports ...
 
 
@@ -96,6 +103,17 @@ function App() {
         <Route path="/tin-tuc" element={<CategoryPostPage slugOverride="tin-tuc" />} />
         <Route path="/dau-thau" element={<CategoryPostPage slugOverride="thong-tin-dau-thau-moi-chao-gia" />} />
         <Route path="/dao-tao" element={<CategoryPostPage slugOverride="dao-tao" />} />
+
+        {/* =========================================
+            3. STUDENT PORTAL ROUTES
+           ========================================= */}
+        <Route path="/cong-thong-tin-sinh-vien" element={<StudentLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<StudentDashboardPage />} />
+          <Route path="schedule" element={<StudentSchedulePage />} />
+          <Route path="grades" element={<StudentGradesPage />} />
+          <Route path="info" element={<StudentInfoPage />} />
+        </Route>
 
         {/* =========================================
             2. ADMIN ROUTES (Quản trị viên)

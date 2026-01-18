@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import studentService from '../../services/studentService';
 
 const StudentLoginWidget = () => {
     const navigate = useNavigate();
@@ -10,19 +11,27 @@ const StudentLoginWidget = () => {
     const [courseId, setCourseId] = useState('');
     const [studentCode, setStudentCode] = useState('');
 
-    // Dummy Data (Replace with API later)
-    const schools = [
-        { id: 1, name: 'Trường ĐH Công Lạc', code: 'TCL' },
-        { id: 2, name: 'Trường ĐH Văn Lang', code: 'VLU' },
-        { id: 3, name: 'Trường ĐH HUTECH', code: 'HUTECH' }
-    ];
+    // Data State
+    const [schools, setSchools] = useState([]);
+    const [courses, setCourses] = useState([]);
 
-    const courses = [
-        { id: 1, name: 'Khóa 423 (T1/2026)' },
-        { id: 2, name: 'Khóa 424 (T2/2026)' }
-    ];
+    useEffect(() => {
+        const fetchMetadata = async () => {
+            try {
+                const [schoolRes, courseRes] = await Promise.all([
+                    studentService.getSchools(),
+                    studentService.getCourses()
+                ]);
+                setSchools(schoolRes);
+                setCourses(courseRes);
+            } catch (error) {
+                console.error("Failed to load metadata", error);
+            }
+        };
+        fetchMetadata();
+    }, []);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         if (!schoolId || !courseId || !studentCode) {
             alert('Vui lòng nhập đầy đủ thông tin!');
@@ -30,15 +39,28 @@ const StudentLoginWidget = () => {
         }
 
         setLoading(true);
+        try {
+            const res = await studentService.login({
+                schoolId: parseInt(schoolId),
+                courseId: parseInt(courseId),
+                studentCode: studentCode
+            });
 
-        // Simulate Login API Call
-        setTimeout(() => {
+            // Login Success
+            // Save token and info
+            localStorage.setItem('studentToken', res.token);
+            localStorage.setItem('studentInfo', JSON.stringify(res.student));
+
+            // Redirect to Dashboard
+            navigate('/cong-thong-tin-sinh-vien/dashboard');
+
+        } catch (error) {
+            console.error(error);
+            const msg = error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại!';
+            alert(msg);
+        } finally {
             setLoading(false);
-            // Mock Login Success
-            // localStorage.setItem('studentToken', 'mock-token');
-            // navigate('/student/dashboard');
-            alert('Đăng nhập thành công! (Mô phỏng)');
-        }, 1000);
+        }
     };
 
     return (
