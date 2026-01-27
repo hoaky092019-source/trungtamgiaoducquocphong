@@ -10,6 +10,7 @@ const ModernAdminLayout = () => {
     // Khởi tạo state user ngay lập tức
     const [user] = useState(() => authService.getCurrentUser());
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isStudentMenuOpen, setIsStudentMenuOpen] = useState(false);
 
     // Notifications State
     const [notifications, setNotifications] = useState([]);
@@ -111,6 +112,49 @@ const ModernAdminLayout = () => {
                 </Link>
 
                 <div className="menu-label mt-4">Management</div>
+
+                {/* MODULE: CỔNG TTĐT SINH VIÊN */}
+                {(user.roleName === 'Admin' || user.roleName === 'SuperAdmin') && (
+                    <div className="nav-item-group mb-2">
+                        <a className={`nav-link-modern ${isStudentMenuOpen ? '' : 'collapsed'} d-flex justify-content-between align-items-center`}
+                            onClick={(e) => { e.preventDefault(); setIsStudentMenuOpen(!isStudentMenuOpen); }}
+                            href="#studentPortalMenu"
+                            style={{ cursor: 'pointer' }}>
+                            <span><i className="fa-solid fa-graduation-cap"></i> Cổng Sinh Viên</span>
+                            <i className={`fa-solid fa-chevron-down small ${isStudentMenuOpen ? 'fa-rotate-180' : ''}`} style={{ transition: 'transform 0.2s' }}></i>
+                        </a>
+                        <div id="studentPortalMenu" style={{ display: isStudentMenuOpen ? 'block' : 'none' }}>
+                            <ul className="list-unstyled ps-3 pe-2 py-1 bg-light rounded m-2 mt-0">
+                                <li>
+                                    <Link to="/admin/schools" className={`nav-link-modern small ${isActive('/admin/schools')}`}>
+                                        <i className="fa-solid fa-school me-2"></i> DS Trường
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/admin/courses" className={`nav-link-modern small ${isActive('/admin/courses')}`}>
+                                        <i className="fa-solid fa-layer-group me-2"></i> DS Khóa học
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/admin/students" className={`nav-link-modern small ${isActive('/admin/students')}`}>
+                                        <i className="fa-solid fa-users me-2"></i> DS Sinh viên
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/admin/schedules" className={`nav-link-modern small ${isActive('/admin/schedules')}`}>
+                                        <i className="fa-regular fa-calendar-days me-2"></i> Lịch học tập
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                )}
+
+                {(user.roleName === 'Admin' || user.roleName === 'SuperAdmin') && (
+                    <Link to="/admin/units" className={`nav-link-modern ${isActive('/admin/units')}`}>
+                        <i className="fa-solid fa-sitemap"></i> Quản lý Đơn vị
+                    </Link>
+                )}
 
                 {(authService.hasPermission('manage_posts') || user.roleName === 'Teacher' || user.roleName === 'FacultyAdmin') && (
                     <Link to="/admin/posts" className={`nav-link-modern ${isActive('/admin/posts')}`}>

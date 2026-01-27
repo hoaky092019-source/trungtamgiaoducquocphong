@@ -1,11 +1,72 @@
+
 // src/pages/HomePage.jsx
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 // QUAN TRỌNG: Import file CSS riêng của trang chủ
 import "../css/HomePage.css";
 
+// Hook helper để đếm số (CountUp)
+const useCountUp = (end, duration = 2000, start = 0) => {
+  const [count, setCount] = useState(start);
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Chỉ chạy 1 lần
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      setCount(Math.floor(progress * (end - start) + start));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }, [isVisible, end, duration, start]);
+
+  return { count, ref };
+};
+
+// Component con hiển thị số đếm
+const StatNumber = ({ end, suffix = "" }) => {
+  const { count, ref } = useCountUp(end);
+  return <div ref={ref} className="stat-number">{count}{suffix}</div>;
+};
+
 const HomePage = () => {
+  // Hook observer cho scroll animation
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // observer.unobserve(entry.target); // Nếu muốn chạy lại khi scroll lên thì bỏ dòng này
+        }
+      });
+    }, { threshold: 0.15 });
+
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    elements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   // Dữ liệu mẫu giả lập (Giống hệt ảnh bạn gửi)
   const mockNews = [
     {
@@ -280,39 +341,131 @@ const HomePage = () => {
         </button>
       </div>
 
-      {/* --- PHẦN TIN TỨC SỰ KIỆN (GRID 2 CỘT) --- */}
-      <div className="news-section container">
-        <h3 className="news-title-heading">TIN TỨC</h3>
-
-        <div className="row">
-          {mockNews.map((item) => (
-            <div key={item.id} className="col-lg-6 col-md-12 my-2">
-              {/* Thẻ tin tức - Click vào sẽ chuyển trang (Link) */}
-              <Link to={`/tin-tuc/${item.id}`} className="news-card">
-                {/* Ảnh Thumb */}
-                <div className="news-thumb">
-                  <img src={item.image} alt={item.title} />
-                </div>
-                {/* Nội dung */}
-                <div className="news-body">
-                  <h5 className="news-heading">
-                    {item.isNew && <span className="badge-new">NEW</span>}
-                    {item.title}
-                  </h5>
-                  <div>
-                    <p className="news-meta">
-                      {item.date} {item.summary}
-                    </p>
-                    <span className="news-link">xem chi tiết</span>
-                  </div>
-                </div>
+      {/* --- NEWS HUB SECTION (Tin tức + Thông báo) --- */}
+      <div className="news-hub-section container py-5 animate-on-scroll">
+        <div className="row g-4">
+          {/* CỘT TRÁI: TIN TỨC SỰ KIỆN (chiếm 8 phần) */}
+          <div className="col-lg-8">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h3 className="section-heading-pro">
+                <span className="heading-highlight">TIN TỨC</span> SỰ KIỆN
+              </h3>
+              <Link to="/tin-tuc" className="view-all-link">
+                Xem tất cả <i className="fa-solid fa-arrow-right-long"></i>
               </Link>
             </div>
-          ))}
+
+            {/* Layout Hỗn hợp: 1 Tin lớn + Danh sách tin nhỏ */}
+            <div className="news-grid-pro">
+              {/* Tin mới nhất (Lớn) */}
+              {mockNews.length > 0 && (
+                <div className="news-hero-card">
+                  <Link to={`/ tin - tuc / ${mockNews[0].id} `} className="news-hero-link">
+                    <div className="news-hero-thumb">
+                      <img src={mockNews[0].image} alt={mockNews[0].title} />
+                      <div className="category-tag">Nổi bật</div>
+                    </div>
+                    <div className="news-hero-content">
+                      <h4 className="news-hero-title">{mockNews[0].title}</h4>
+                      <div className="news-meta text-white-50 mb-2">
+                        <i className="fa-regular fa-clock me-1"></i> {mockNews[0].date}
+                      </div>
+                      <p className="news-hero-summary d-none d-md-block">{mockNews[0].summary}</p>
+                    </div>
+                  </Link>
+                </div>
+              )}
+
+              {/* Grid 4 tin tiếp theo */}
+              <div className="news-sub-grid row g-3 mt-2">
+                {mockNews.slice(1, 5).map(item => (
+                  <div key={item.id} className="col-md-6">
+                    <Link to={`/ tin - tuc / ${item.id} `} className="news-mini-card">
+                      <div className="mini-thumb">
+                        <img src={item.image} alt={item.title} onError={(e) => { e.target.src = "https://placehold.co/150x100"; }} />
+                      </div>
+                      <div className="mini-content">
+                        <h6 className="mini-title">{item.title}</h6>
+                        <span className="mini-date">{item.date}</span>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* CỘT PHẢI: THÔNG BÁO (chiếm 4 phần) */}
+          <div className="col-lg-4">
+            <div className="notice-board-wrapper">
+              <div className="notice-header mb-4">
+                <h4 className="notice-heading">THÔNG BÁO <span className="pulsing-dot"></span></h4>
+              </div>
+
+              <div className="notice-list">
+                {mockNotices.map((item) => (
+                  <Link to={`/ thong - bao / ${item.id} `} key={item.id} className="notice-item">
+                    <div className="notice-date-badge">
+                      <span className="n-day">{item.day}</span>
+                      <span className="n-month">/{item.month}</span>
+                    </div>
+                    <div className="notice-info">
+                      <h6 className="n-title">{item.title}</h6>
+                      <span className="n-new-tag">Mới</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <Link to="/dao-tao/thong-bao" className="btn btn-outline-primary w-100 mt-3 fw-bold">
+                XEM TẤT CẢ THÔNG BÁO
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* ------------------------------------------- */}
+
+      {/* --- STATS SECTION (THÀNH TỰU) - MỚI --- */}
+      <div className="stats-section animate-on-scroll">
+        <div className="container">
+          <div className="row text-center">
+            <div className="col-md-3 col-6 mb-4 mb-md-0">
+              <div className="stat-item">
+                <div className="stat-icon"><i className="fa-solid fa-user-graduate"></i></div>
+                <StatNumber end={200} suffix="K+" />
+                <div className="stat-label">Sinh viên tốt nghiệp</div>
+              </div>
+            </div>
+            <div className="col-md-3 col-6 mb-4 mb-md-0">
+              <div className="stat-item">
+                <div className="stat-icon"><i className="fa-solid fa-chalkboard-user"></i></div>
+                <StatNumber end={150} suffix="+" />
+                <div className="stat-label">Giảng viên cơ hữu</div>
+              </div>
+            </div>
+            <div className="col-md-3 col-6">
+              <div className="stat-item">
+                <div className="stat-icon"><i className="fa-solid fa-school"></i></div>
+                <StatNumber end={28} />
+                <div className="stat-label">Năm hình thành</div>
+              </div>
+            </div>
+            <div className="col-md-3 col-6">
+              <div className="stat-item">
+                <div className="stat-icon"><i className="fa-solid fa-medal"></i></div>
+                <StatNumber end={10} suffix="+" />
+                <div className="stat-label">Huân chương lao động</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* ------------------------------------------- */}
+
       {/* --- PHẦN HOẠT ĐỘNG TIÊU BIỂU (MỚI) --- */}
-      <div className="activity-section">
+      <div className="activity-section animate-on-scroll">
         {/* Lớp phủ màu xanh */}
         <div className="activity-overlay"></div>
 
@@ -375,44 +528,9 @@ const HomePage = () => {
         </div>
       </div>
       {/* ------------------------------------------- */}
-      {/* --- PHẦN THÔNG BÁO & LỊCH HỌC (MỚI) --- */}
-      <div className="notice-section">
-        <div className="container">
-          {/* Tiêu đề mục */}
-          <h3 className="news-title-heading">THÔNG BÁO & LỊCH HỌC</h3>
 
-          <div className="row g-4">
-            {mockNotices.map((item) => (
-              <div key={item.id} className="col-lg-6 col-md-12">
-                <Link to={`/thong-bao/${item.id}`} className="notice-card">
-                  {/* Cột trái: Box Ngày tháng (CSS thuần) */}
-                  <div className="notice-date-box">
-                    <span className="notice-day">{item.day}</span>
-                    <span className="notice-month">Tháng {item.month}</span>
-                  </div>
-
-                  {/* Cột phải: Nội dung */}
-                  <div className="notice-body">
-                    <h5 className="notice-title">{item.title}</h5>
-                    <p className="notice-meta">
-                      <i className="fa-regular fa-clock me-1"></i> Đăng ngày:{" "}
-                      {item.publishDate}
-                    </p>
-                    <p className="notice-summary">{item.summary}</p>
-                    <span className="notice-link">
-                      Xem chi tiết{" "}
-                      <i className="fa-solid fa-arrow-right ms-1"></i>
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* ------------------------------------------- */}
       {/* --- PHẦN LỜI BÁC DẠY (MỚI) --- */}
-      <div className="quote-section">
+      <div className="quote-section animate-on-scroll">
         {/* Ảnh hoa sen nền chìm */}
         <div className="lotus-bg"></div>
 
@@ -450,7 +568,7 @@ const HomePage = () => {
       </div>
       {/* ------------------------------------------- */}
       {/* --- PHẦN HOẠT ĐỘNG NGOẠI KHÓA (MỚI) --- */}
-      <div className="extra-section">
+      <div className="extra-section animate-on-scroll">
         <div className="container">
           {/* Tiêu đề */}
           <div className="text-center mb-5">
@@ -520,7 +638,7 @@ const HomePage = () => {
       </div>
       {/* ------------------------------------------- */}
       {/* --- PHẦN CHIA SẺ (TESTIMONIAL) - MỚI --- */}
-      <div className="sharing-section">
+      <div className="sharing-section animate-on-scroll">
         <div className="container position-relative z-2">
           <div className="row align-items-center">
             {/* CỘT TRÁI: THÔNG TIN NGƯỜI GỬI (35%) */}
@@ -606,30 +724,30 @@ const HomePage = () => {
       </div>
       {/* ------------------------------------------- */}
       {/* --- PHẦN BẢN ĐỒ VỊ TRÍ (MỚI) --- */}
-            <div className="map-section">
-                <div className="container-fluid px-0"> {/* Full width */}
-                    <div className="text-center mb-4">
-                         <h3 className="map-title fw-bold text-uppercase">
-                            Vị trí Trung Tâm Giáo Dục Quốc Phòng (Trường Quân Sự)
-                        </h3>
-                         <div className="divider-icon"><i className="fa-solid fa-location-dot"></i></div>
-                    </div>
-                    
-                    <div className="map-container">
-                       <iframe 
-                title="Bản đồ Trường Quân sự Quân đoàn 4"
-                src="https://maps.google.com/maps?q=Trường+Quân+Sự+Quân+đoàn+4+Bình+Dương&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                width="100%" 
-                height="450" 
-                style={{border:0}} 
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade">
+      <div className="map-section animate-on-scroll">
+        <div className="container-fluid px-0"> {/* Full width */}
+          <div className="text-center mb-4">
+            <h3 className="map-title fw-bold text-uppercase">
+              Vị trí Trung Tâm Giáo Dục Quốc Phòng (Trường Quân Sự)
+            </h3>
+            <div className="divider-icon"><i className="fa-solid fa-location-dot"></i></div>
+          </div>
+
+          <div className="map-container">
+            <iframe
+              title="Bản đồ Trường Quân sự Quân đoàn 4"
+              src="https://maps.google.com/maps?q=Trường+Quân+Sự+Quân+đoàn+4+Bình+Dương&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade">
             </iframe>
-                    </div>
-                </div>
-            </div>
-            {/* ------------------------------------------- */}
+          </div>
+        </div>
+      </div>
+      {/* ------------------------------------------- */}
     </MainLayout>
   );
 };

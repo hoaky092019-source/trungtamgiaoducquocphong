@@ -10,6 +10,9 @@ using elFinder.Net.Drivers.FileSystem.Extensions;
 using elFinder.Net.Core;
 var builder = WebApplication.CreateBuilder(args);
 
+// Fix EPPlus 8 License
+OfficeOpenXml.ExcelPackage.License.SetNonCommercialPersonal("StudentPortal");
+
 // 1. Kết nối Database
 builder.Services.AddDbContext<TrungtamgiaoducquocphongContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

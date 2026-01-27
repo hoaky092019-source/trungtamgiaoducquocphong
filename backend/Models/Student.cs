@@ -29,6 +29,10 @@ namespace backend.Models
         [ForeignKey("SchoolId")]
         public School School { get; set; }
         
+        public int? StudentClassId { get; set; }
+        [ForeignKey("StudentClassId")]
+        public StudentClass? StudentClass { get; set; }
+        
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
@@ -39,13 +43,30 @@ namespace backend.Models
         public string? UniformSize { get; set; } // S, M, L, XL...
         
         // Feature 2 & 3: Info
+        // Feature 2 & 3: Info
+        
         [MaxLength(50)]
-        public string? Company { get; set; } // Đại đội
+        public string? Battalion { get; set; } // Keep for display/backup
+        public int? BattalionId { get; set; }
+        [ForeignKey("BattalionId")]
+        public OrganizationalUnit? BattalionUnit { get; set; }
+
+        [MaxLength(50)]
+        public string? Company { get; set; } // Keep for display/backup
+        public int? CompanyId { get; set; }
+        [ForeignKey("CompanyId")]
+        public OrganizationalUnit? CompanyUnit { get; set; }
+
         [MaxLength(50)]
         public string? Platoon { get; set; } // Trung đội/Tiểu đội
+        
         [MaxLength(20)]
         public string? RoomNumber { get; set; } // Phòng số
+        
         [MaxLength(50)]
-        public string? Building { get; set; } // Dãy nhà
+        public string? Building { get; set; } // Keep for display/backup
+        public int? BuildingId { get; set; }
+        [ForeignKey("BuildingId")]
+        public Building? BuildingEntity { get; set; }
     }
 }

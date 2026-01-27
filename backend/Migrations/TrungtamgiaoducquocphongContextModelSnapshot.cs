@@ -40,6 +40,33 @@ namespace backend.Migrations
                     b.ToTable("RolePermissions", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.Building", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrganizationalUnitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationalUnitId");
+
+                    b.ToTable("Buildings");
+                });
+
             modelBuilder.Entity("backend.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -277,6 +304,251 @@ namespace backend.Migrations
                     b.ToTable("FileNodes");
                 });
 
+            modelBuilder.Entity("backend.Models.Lesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Bài 1: Đối tượng, phương pháp nghiên cứu môn học GDQP&AN",
+                            Order = 1,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Bài 2: Quan điểm của chủ nghĩa Mác - Lênin, tư tưởng HCM về chiến tranh, quân đội và bảo vệ tổ quốc",
+                            Order = 2,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Bài 3: Xây dựng nền quốc phòng toàn dân, an ninh nhân dân",
+                            Order = 3,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Bài 4: Chiến tranh nhân dân bảo vệ Tổ quốc Việt Nam XHCN",
+                            Order = 4,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Bài 5: Xây dựng lực lượng vũ trang nhân dân Việt Nam",
+                            Order = 5,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Bài 6: Kết hợp phát triển kinh tế - xã hội với tăng cường củng cố QP&AN",
+                            Order = 6,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Bài 7: Nghệ thuật quân sự Việt Nam",
+                            Order = 7,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Bài 8: Xây dựng và bảo vệ chủ quyền biên giới quốc gia",
+                            Order = 8,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Bài 9: Xây dựng và bảo vệ chủ quyền biển, đảo Việt Nam",
+                            Order = 9,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Bài 10: Bảo vệ an ninh quốc gia và bảo đảm trật tự, an toàn xã hội",
+                            Order = 10,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Bài 11: Phòng chống chiến lược 'diễn biến hòa bình', bạo loạn lật đổ của các thế lực thù địch",
+                            Order = 11,
+                            SubjectId = 1
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Bài 1: Phòng chống địch tiến công hỏa lực bằng vũ khí công nghệ cao",
+                            Order = 1,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Bài 2: Phòng chống vi phạm pháp luật về bảo vệ môi trường",
+                            Order = 2,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Bài 3: Phòng chống vi phạm pháp luật về bảo đảm trật tự an toàn giao thông",
+                            Order = 3,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Bài 4: Phòng chống một số loại tội phạm xâm hại danh dự, nhân phẩm",
+                            Order = 4,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Bài 5: An toàn thông tin và phòng chống vi phạm pháp luật trên không gian mạng",
+                            Order = 5,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Bài 6: Phòng chống tệ nạn xã hội",
+                            Order = 6,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Bài 7: Xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc",
+                            Order = 7,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Bài 1: Đội ngũ đơn vị",
+                            Order = 1,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Bài 2: Đội ngũ từng người không có súng",
+                            Order = 2,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Bài 3: Đội ngũ từng người có súng",
+                            Order = 3,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "Bài 4: Hiểu biết chung về bản đồ địa hình quân sự",
+                            Order = 4,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "Bài 5: Số đo xa, thước đo độ, ống nhòm nhìn đêm, định hướng bàn đồ",
+                            Order = 5,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Bài 6: Phòng hóa",
+                            Order = 6,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "Bài 7: Y tế",
+                            Order = 7,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "Bài 8: Ba môn quân sự phối hợp",
+                            Order = 8,
+                            SubjectId = 3
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "Bài 1: Kỹ thuật bắn súng tiểu liên AK",
+                            Order = 1,
+                            SubjectId = 4
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Name = "Bài 2: Tính năng, cấu tạo, sử dụng một số loại lựu đạn",
+                            Order = 2,
+                            SubjectId = 4
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Name = "Bài 3: Từng người trong chiến đấu tiến công",
+                            Order = 3,
+                            SubjectId = 4
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "Bài 4: Từng người trong chiến đấu phòng ngự",
+                            Order = 4,
+                            SubjectId = 4
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "Bài 5: Từng người làm nhiệm vụ canh gác",
+                            Order = 5,
+                            SubjectId = 4
+                        });
+                });
+
             modelBuilder.Entity("backend.Models.Log", b =>
                 {
                     b.Property<int>("LogId")
@@ -361,6 +633,41 @@ namespace backend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("backend.Models.OrganizationalUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("OrganizationalUnits");
                 });
 
             modelBuilder.Entity("backend.Models.Permission", b =>
@@ -491,6 +798,47 @@ namespace backend.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("backend.Models.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AfternoonContent")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EveningContent")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Lecturer")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("MorningContent")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Schedules");
+                });
+
             modelBuilder.Entity("backend.Models.School", b =>
                 {
                     b.Property<int>("Id")
@@ -556,13 +904,26 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Battalion")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("BattalionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Building")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("BuildingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Company")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -599,6 +960,9 @@ namespace backend.Migrations
                     b.Property<int>("SchoolId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("StudentClassId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StudentCode")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -610,11 +974,42 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BattalionId");
+
+                    b.HasIndex("BuildingId");
+
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("CourseId");
 
                     b.HasIndex("SchoolId");
 
+                    b.HasIndex("StudentClassId");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("backend.Models.StudentClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("StudentClasses");
                 });
 
             modelBuilder.Entity("backend.Models.StudentGrade", b =>
@@ -625,26 +1020,132 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Classification")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<double?>("FinalScore")
+                        .HasColumnType("float");
 
-                    b.Property<string>("ModuleName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<double?>("Score1")
+                        .HasColumnType("float");
 
-                    b.Property<double>("Score")
+                    b.Property<double?>("Score2")
                         .HasColumnType("float");
 
                     b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StudentId");
 
+                    b.HasIndex("SubjectId");
+
                     b.ToTable("StudentGrades");
+                });
+
+            modelBuilder.Entity("backend.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("Credits")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "HP1",
+                            Credits = 3,
+                            Name = "Đường lối quốc phòng và an ninh của Đảng Cộng sản Việt Nam"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "HP2",
+                            Credits = 2,
+                            Name = "Công tác quốc phòng và an ninh"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "HP3",
+                            Credits = 2,
+                            Name = "Quân sự chung"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "HP4",
+                            Credits = 4,
+                            Name = "Kỹ thuật chiến đấu bộ binh và chiến thuật"
+                        });
+                });
+
+            modelBuilder.Entity("backend.Models.TrainingSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Lecturer")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Shift")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("TrainingSessions");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -725,6 +1226,17 @@ namespace backend.Migrations
                         .HasConstraintName("FK_RolePermissions_Roles");
                 });
 
+            modelBuilder.Entity("backend.Models.Building", b =>
+                {
+                    b.HasOne("backend.Models.OrganizationalUnit", "OrganizationalUnit")
+                        .WithMany("Buildings")
+                        .HasForeignKey("OrganizationalUnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrganizationalUnit");
+                });
+
             modelBuilder.Entity("backend.Models.Category", b =>
                 {
                     b.HasOne("backend.Models.Category", "ParentCategory")
@@ -780,6 +1292,17 @@ namespace backend.Migrations
                     b.Navigation("UploadedByUser");
                 });
 
+            modelBuilder.Entity("backend.Models.Lesson", b =>
+                {
+                    b.HasOne("backend.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("backend.Models.Log", b =>
                 {
                     b.HasOne("backend.Models.User", "User")
@@ -800,6 +1323,15 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.OrganizationalUnit", b =>
+                {
+                    b.HasOne("backend.Models.OrganizationalUnit", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("backend.Models.Post", b =>
@@ -834,8 +1366,31 @@ namespace backend.Migrations
                     b.Navigation("Faculty");
                 });
 
+            modelBuilder.Entity("backend.Models.Schedule", b =>
+                {
+                    b.HasOne("backend.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("backend.Models.Student", b =>
                 {
+                    b.HasOne("backend.Models.OrganizationalUnit", "BattalionUnit")
+                        .WithMany()
+                        .HasForeignKey("BattalionId");
+
+                    b.HasOne("backend.Models.Building", "BuildingEntity")
+                        .WithMany()
+                        .HasForeignKey("BuildingId");
+
+                    b.HasOne("backend.Models.OrganizationalUnit", "CompanyUnit")
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("backend.Models.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId")
@@ -848,7 +1403,30 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("backend.Models.StudentClass", "StudentClass")
+                        .WithMany()
+                        .HasForeignKey("StudentClassId");
+
+                    b.Navigation("BattalionUnit");
+
+                    b.Navigation("BuildingEntity");
+
+                    b.Navigation("CompanyUnit");
+
                     b.Navigation("Course");
+
+                    b.Navigation("School");
+
+                    b.Navigation("StudentClass");
+                });
+
+            modelBuilder.Entity("backend.Models.StudentClass", b =>
+                {
+                    b.HasOne("backend.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("School");
                 });
@@ -861,7 +1439,34 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("backend.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("backend.Models.TrainingSession", b =>
+                {
+                    b.HasOne("backend.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -901,6 +1506,13 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.FileNode", b =>
                 {
                     b.Navigation("InverseParent");
+                });
+
+            modelBuilder.Entity("backend.Models.OrganizationalUnit", b =>
+                {
+                    b.Navigation("Buildings");
+
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("backend.Models.Role", b =>

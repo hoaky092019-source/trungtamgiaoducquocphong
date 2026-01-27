@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import categoryService from '../services/categoryService'; // Import service
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import categoryService from '../services/categoryService';
 import authService from '../services/authService';
 import '../css/site.css';
 import '../css/Footer.css';
 
 const MainLayout = ({ children }) => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     // --- STATE ---
     const [scrolled, setScrolled] = useState(false);
@@ -14,20 +15,24 @@ const MainLayout = ({ children }) => {
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [showBackToTop, setShowBackToTop] = useState(false);
     const [user, setUser] = useState(null);
-    const [menuTree, setMenuTree] = useState([]); // State lưu menu động
+    const [student, setStudent] = useState(null); // State cho sinh viên
+    const [menuTree, setMenuTree] = useState([]);
 
     // --- EFFECT ---
     useEffect(() => {
+        // 1. Check Admin User
         const currentUser = authService.getCurrentUser();
         setUser(currentUser);
 
-        // Load danh mục để làm Menu
-        categoryService.getAll().then(cats => {
-            // 1. Lọc lấy các danh mục cha (ParentCategoryId == null)
-            // Lưu ý: Backend trả về có thể là null hoặc 0 tuỳ cấu hình, check cả 2
-            const parents = cats.filter(c => !c.parentCategoryId);
+        // 2. Check Student User
+        const studentInfo = localStorage.getItem('studentInfo');
+        if (studentInfo) {
+            setStudent(JSON.parse(studentInfo));
+        }
 
-            // 2. Map con vào cha
+        // 3. Load Menu (Categories)
+        categoryService.getAll().then(cats => {
+            const parents = cats.filter(c => !c.parentCategoryId);
             const tree = parents.map(p => {
                 return {
                     ...p,
@@ -71,35 +76,54 @@ const MainLayout = ({ children }) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    // Logout Student
+    const handleStudentLogout = () => {
+        localStorage.removeItem('studentToken');
+        localStorage.removeItem('studentInfo');
+        setStudent(null);
+        navigate('/danh-muc/cong-ttdt-sinh-vien');
+        closeMenu();
+    };
+
     return (
         <div className="d-flex flex-column min-vh-100">
-            {/* --- HEADER DUY NHẤT (STICKY) --- */}
+            {/* --- HEADER --- */}
             <header className="fixed-top">
-                {/* navbar-light: Giúp nút toggler màu đen nổi trên nền trắng */}
                 <nav className={`navbar navbar-expand-lg navbar-light navbar-custom ${scrolled ? 'navbar-scrolled' : ''}`}>
                     <div className="container">
 
-                        {/* 1. LOGO LỚN (LUÔN HIỂN THỊ) */}
+                        {/* 1. LOGO */}
                         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={closeMenu}>
-                            {/* Logo này sẽ tự co giãn theo CSS khi cuộn */}
-                            <img
-                                src="/img/logottgdqp.png"
-                                alt="TTGDQP&AN Logo"
-                            />
+                            <img src="/img/logottgdqp.png" alt="TTGDQP&AN Logo" />
                         </Link>
 
-                        {/* 2. KHU VỰC PHẢI: LOGIN + HAMBURGER (Luôn nằm phải) */}
+                        {/* 2. RIGHT AREA (Login/User) */}
                         <div className="d-flex align-items-center ms-auto order-lg-last">
-
-                            {/* Nút Đăng nhập/Admin */}
                             <div className="me-2 me-lg-0 ms-3">
-                                {user ? (
+                                {student ? (
+                                    /* STUDENT LOGGED IN */
+                                    <div className="dropdown">
+                                        <button className="btn btn-primary btn-sm fw-bold rounded-pill px-3 shadow-sm dropdown-toggle" type="button" id="studentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i className="fa-solid fa-user-graduate me-lg-2"></i>
+                                            <span className="d-none d-sm-inline">{student.fullName}</span>
+                                        </button>
+                                        <ul className="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="studentDropdown">
+                                            <li><Link className="dropdown-item py-2" to="/cong-thong-tin-sinh-vien/dashboard" onClick={closeMenu}><i className="fa-solid fa-table-columns me-2 text-primary"></i> Dashboard</Link></li>
+                                            <li><Link className="dropdown-item py-2" to="/cong-thong-tin-sinh-vien/schedule" onClick={closeMenu}><i className="fa-regular fa-calendar me-2 text-success"></i> Lịch học tập</Link></li>
+                                            <li><Link className="dropdown-item py-2" to="/cong-thong-tin-sinh-vien/grades" onClick={closeMenu}><i className="fa-solid fa-graduation-cap me-2 text-warning"></i> Kết quả học tập</Link></li>
+                                            <li><Link className="dropdown-item py-2" to="/cong-thong-tin-sinh-vien/info" onClick={closeMenu}><i className="fa-solid fa-id-card me-2 text-info"></i> Hồ sơ cá nhân</Link></li>
+                                            <li><hr className="dropdown-divider" /></li>
+                                            <li><button className="dropdown-item py-2 text-danger fw-bold" onClick={handleStudentLogout}><i className="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất</button></li>
+                                        </ul>
+                                    </div>
+                                ) : user ? (
+                                    /* ADMIN LOGGED IN */
                                     <Link to="/admin/dashboard" className="btn btn-primary btn-sm fw-bold rounded-pill px-3 shadow-sm">
                                         <i className="fa-solid fa-user-shield me-lg-2"></i>
                                         <span className="d-none d-sm-inline">Quản trị</span>
                                     </Link>
                                 ) : (
-                                    /* Viền xanh, chữ xanh cho hợp nền trắng */
+                                    /* GUEST */
                                     <Link to="/login" className="btn btn-outline-primary btn-sm fw-bold rounded-pill px-3">
                                         <i className="fa-solid fa-circle-user me-lg-2"></i>
                                         <span className="d-none d-sm-inline">Đăng nhập</span>
@@ -107,28 +131,22 @@ const MainLayout = ({ children }) => {
                                 )}
                             </div>
 
-                            {/* Nút Hamburger */}
-                            <button
-                                className="navbar-toggler ms-2"
-                                type="button"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                style={{ border: 'none', outline: 'none' }}
-                            >
+                            {/* Hamburger */}
+                            <button className="navbar-toggler ms-2" type="button" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} style={{ border: 'none', outline: 'none' }}>
                                 <span className="navbar-toggler-icon"></span>
                             </button>
                         </div>
 
-                        {/* 3. MENU CHÍNH (Nằm giữa) */}
+                        {/* 3. MENU */}
                         <div className={`collapse navbar-collapse order-lg-1 ${isMobileMenuOpen ? 'show' : ''}`} id="mainNav">
                             <ul className="navbar-nav mx-auto align-items-lg-center">
-                                {/* Trang chủ (Cố định) */}
                                 <li className="nav-item">
                                     <Link className={`nav-link ${isActive('/')}`} to="/" onClick={closeMenu}>
                                         <i className="fa-solid fa-house me-1"></i> Trang chủ
                                     </Link>
                                 </li>
 
-                                {/* Giới thiệu (Cố định - Theo yêu cầu chưa cần động phần này hoặc làm sau) */}
+                                {/* --- PUBLIC MENU --- */}
                                 <li className="nav-item dropdown" onMouseEnter={() => handleMouseEnter('gioi-thieu')} onMouseLeave={handleMouseLeave}>
                                     <a className={`nav-link dropdown-toggle ${isActive('/gioi-thieu')}`} href="#" onClick={(e) => toggleDropdown(e, 'gioi-thieu')}>
                                         Giới thiệu
@@ -142,37 +160,62 @@ const MainLayout = ({ children }) => {
                                     </ul>
                                 </li>
 
-                                {/* --- MENU ĐỘNG TỪ DATABASE --- */}
-                                {menuTree.map(parent => (
-                                    <li key={parent.categoryId} className="nav-item dropdown"
-                                        onMouseEnter={() => handleMouseEnter(`cat-${parent.categoryId}`)}
-                                        onMouseLeave={handleMouseLeave}
-                                    >
-                                        <Link className={`nav-link dropdown-toggle ${isActive(`/danh-muc/${parent.slug}`)}`}
-                                            to={`/danh-muc/${parent.slug}`}
-                                            onClick={(e) => {
-                                                closeMenu();
-                                            }}
-                                        >
-                                            {parent.categoryName}
-                                        </Link>
-                                        {/* Dropdown con (nếu có) */}
-                                        {parent.children && parent.children.length > 0 && (
-                                            <ul className={`dropdown-menu dropdown-menu-custom ${activeDropdown === `cat-${parent.categoryId}` ? 'show' : ''}`}>
-                                                {/* Đã bỏ "Xem tất cả" theo yêu cầu */}
+                                {menuTree.map(parent => {
+                                    // Check if this is the Student Portal Category
+                                    const isStudentPortalCat = parent.slug === 'cong-ttdt-sinh-vien' || parent.slug === 'sinh-vien';
 
-                                                {/* Các mục con */}
-                                                {parent.children.map(child => (
-                                                    <li key={child.categoryId}>
-                                                        <Link className="dropdown-item" to={`/danh-muc/${child.slug}`} onClick={closeMenu}>
-                                                            {child.categoryName}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                    </li>
-                                ))}
+                                    // If Student Logged In AND this is Student Portal Cat -> SHOW SPECIAL MENU
+                                    if (student && isStudentPortalCat) {
+                                        return (
+                                            <li key={parent.categoryId} className="nav-item dropdown"
+                                                onMouseEnter={() => handleMouseEnter(`cat-${parent.categoryId}`)}
+                                                onMouseLeave={handleMouseLeave}
+                                            >
+                                                <Link className={`nav-link dropdown-toggle active fw-bold text-primary`}
+                                                    to={`/danh-muc/${parent.slug}`}
+                                                    onClick={(e) => { toggleDropdown(e, `cat-${parent.categoryId}`); }}
+                                                >
+                                                    {parent.categoryName} <span className="badge bg-danger rounded-pill ms-1" style={{ fontSize: '0.6rem' }}>SV</span>
+                                                </Link>
+                                                <ul className={`dropdown-menu dropdown-menu-custom ${activeDropdown === `cat-${parent.categoryId}` ? 'show' : ''}`}>
+                                                    <li><Link className="dropdown-item fw-bold text-primary" to="/cong-thong-tin-sinh-vien/dashboard" onClick={closeMenu}><i className="fa-solid fa-table-columns me-2"></i> Dashboard</Link></li>
+                                                    <li><hr className="dropdown-divider" /></li>
+                                                    <li><Link className="dropdown-item" to="/cong-thong-tin-sinh-vien/schedule" onClick={closeMenu}><i className="fa-regular fa-calendar me-2"></i> Lịch học tập</Link></li>
+                                                    <li><Link className="dropdown-item" to="/cong-thong-tin-sinh-vien/grades" onClick={closeMenu}><i className="fa-solid fa-graduation-cap me-2"></i> Kết quả học tập</Link></li>
+                                                    <li><Link className="dropdown-item" to="/cong-thong-tin-sinh-vien/info" onClick={closeMenu}><i className="fa-regular fa-id-card me-2"></i> Thông tin cá nhân</Link></li>
+                                                    <li><hr className="dropdown-divider" /></li>
+                                                    <li><button className="dropdown-item text-danger" onClick={handleStudentLogout}><i className="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất</button></li>
+                                                </ul>
+                                            </li>
+                                        );
+                                    }
+
+                                    // Default Rendering
+                                    return (
+                                        <li key={parent.categoryId} className="nav-item dropdown"
+                                            onMouseEnter={() => handleMouseEnter(`cat-${parent.categoryId}`)}
+                                            onMouseLeave={handleMouseLeave}
+                                        >
+                                            <Link className={`nav-link dropdown-toggle ${isActive(`/danh-muc/${parent.slug}`)}`}
+                                                to={`/danh-muc/${parent.slug}`}
+                                                onClick={(e) => { closeMenu(); }}
+                                            >
+                                                {parent.categoryName}
+                                            </Link>
+                                            {parent.children && parent.children.length > 0 && (
+                                                <ul className={`dropdown-menu dropdown-menu-custom ${activeDropdown === `cat-${parent.categoryId}` ? 'show' : ''}`}>
+                                                    {parent.children.map(child => (
+                                                        <li key={child.categoryId}>
+                                                            <Link className="dropdown-item" to={`/danh-muc/${child.slug}`} onClick={closeMenu}>
+                                                                {child.categoryName}
+                                                            </Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </li>
+                                    );
+                                })}
 
                                 <li className="nav-item"><Link className={`nav-link ${isActive('/lien-he')}`} to="/lien-he" onClick={closeMenu}>Liên hệ</Link></li>
                             </ul>
@@ -182,7 +225,6 @@ const MainLayout = ({ children }) => {
             </header>
 
             {/* --- BODY --- */}
-            {/* Tăng paddingTop vì Navbar giờ cao hơn (khoảng 100px) để không che nội dung */}
             <main className="flex-grow-1" style={{ paddingTop: scrolled ? '85px' : '105px', transition: 'padding 0.3s ease' }}>
                 {children}
             </main>

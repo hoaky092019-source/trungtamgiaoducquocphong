@@ -36,6 +36,13 @@ import StudentSchedulePage from "./pages/student/StudentSchedulePage";
 import StudentGradesPage from "./pages/student/StudentGradesPage";
 import StudentInfoPage from "./pages/student/StudentInfoPage";
 
+// Admin Student Portal Pages
+import AdminSchoolsPage from './pages/admin/AdminSchoolsPage';
+import AdminCoursesPage from './pages/admin/AdminCoursesPage';
+import AdminStudentsPage from './pages/admin/AdminStudentsPage';
+import AdminSchedulesPage from './pages/admin/AdminSchedulesPage';
+import AdminUnitsPage from './pages/admin/AdminUnitsPage';
+
 // ... previous imports ...
 
 
@@ -118,9 +125,6 @@ function App() {
         {/* =========================================
             2. ADMIN ROUTES (Quản trị viên)
            ========================================= */}
-        {/* =========================================
-            2. ADMIN ROUTES (Quản trị viên)
-           ========================================= */}
         {/* Route Cha: Chứa Layout (Sidebar + Header) */}
         {/* BẢO VỆ ROUTE: Chỉ cho phép Admin, FacultyAdmin, Teacher vào trang quản trị */}
         <Route element={<PrivateRoute allowedRoles={['Admin', 'FacultyAdmin', 'Teacher']} />}>
@@ -159,6 +163,15 @@ function App() {
             <Route path="posts" element={<PostsPage />} />
             <Route path="posts/add" element={<PostFormPage />} />
             <Route path="posts/edit/:id" element={<PostFormPage />} />
+
+            {/* --- MODULE: STUDENT PORTAL ADMIN (Only Admin) --- */}
+            <Route element={<PrivateRoute allowedRoles={['Admin']} />}>
+              <Route path="schools" element={<AdminSchoolsPage />} />
+              <Route path="courses" element={<AdminCoursesPage />} />
+              <Route path="students" element={<AdminStudentsPage />} />
+              <Route path="schedules" element={<AdminSchedulesPage />} />
+              <Route path="units" element={<AdminUnitsPage />} />
+            </Route>
 
             {/* --- MODULE: QUẢN LÝ FILE (All Permitted) --- */}
             <Route path="file-manager" element={<ElFinderPage />} />

@@ -21,6 +21,7 @@
     <PackageReference Include="elFinder.Net.AspNetCore" Version="1.5.0" />
     <PackageReference Include="elFinder.Net.Core" Version="1.5.0" />
     <PackageReference Include="elFinder.Net.Drivers.FileSystem" Version="1.5.0" />
+    <PackageReference Include="EPPlus" Version="8.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

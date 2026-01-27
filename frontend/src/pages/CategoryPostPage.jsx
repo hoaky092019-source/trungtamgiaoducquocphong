@@ -118,7 +118,7 @@ const CategoryPostPage = ({ slugOverride }) => {
             subtitle={category.description || `Tin tức - ${category.categoryName}`}
             tabs={tabsList}
             activeTab={category.categoryName}
-            sidebarContent={isStudentPortal ? <StudentLoginWidget /> : null}
+            sidebarContent={isStudentPortal && !localStorage.getItem('studentInfo') ? <StudentLoginWidget /> : null}
         >
             <div className="d-flex flex-column gap-4">
                 {posts.length === 0 ? (
